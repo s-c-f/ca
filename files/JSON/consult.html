@@ -57,6 +57,9 @@
         tbody td {
             width: 70px;
         }
+        #ultimate{
+            text-align: right;
+        }
     </style>
 </head>
 
@@ -74,7 +77,9 @@
 
     <br>
     <hr>
-    <h2>Total: <span id="domTotalPrice"></span></h2>
+    <h3>Total: <span id="domTotalPrice"></span></h3>
+    <hr>
+    <div id="ultimate"> <b>Ultimo P:</b>  <span id="lastProduct"></span></div>
     <hr>
     <div id="containerTable">
         <table id="tableProducts">
@@ -223,6 +228,10 @@
 
             var element = document.getElementById("tableProducts");
             element.scrollTop = element.scrollHeight;
+
+            let lp = productsList[productsList.length-1];
+
+            document.getElementById("lastProduct").innerText = `${lp.name.slice(0,13)}: ${formartNum(lp.price)}`;
         }
 
         function deleteProduct(index) {
