@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Data</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        input,
+        textarea {
+
+            color: white;
+            background-color: rgb(71, 94, 129);
+        }
+    </style>
+</head>
+
+<body>
+    <h3>TXT</h3>
+    <textarea id="domTxt" name="" id="" cols="80" rows="10"></textarea>
+    <br><button onclick="convert()">Convert</button>
+
+    <h3>JSON</h3>
+    <textarea id="domJSON" name="" id="" cols="80" rows="10"></textarea>
+
+    <script>
+        let productsList = [];
+        let names = [];
+        function convert() {
+            let domTxt = document.getElementById("domTxt");
+
+            let counter = 0;
+            for (let row of domTxt.value.split("\n")) {
+                let product = row.split(",");
+
+                let barcode = product[4];
+                let name = product[6];
+                let price = product[8];
+
+
+
+                productsList.push(
+                    {
+                        barcode,
+                        name,
+                        price
+                    }
+                );
+                names.push(` ${name} | ${new Intl.NumberFormat('en-US').format(price)} |  ${barcode} |`);
+                counter += 1;
+            }
+           document.getElementById("domJSON").value =  JSON.stringify(productsList)
+           console.log(names);
+        }
+
+    </script>
+</body>
+
+</html>

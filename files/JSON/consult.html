@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        input,
+        textarea {
+
+            color: white;
+            background-color: rgb(71, 94, 129);
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: grey;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .price {
+            text-align: right;
+        }
+
+        .closeButtom {
+            background-color: rgb(179, 41, 41);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        thead {
+            display: block;
+        }
+
+        table {
+            display: block;
+            overflow-y: scroll;
+            max-height: 400px;
+        }
+
+        thead th,
+        tbody td {
+            width: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <h4>Codigo de barras:</h4>
+    <input id="domTxtSearchP" type="text">
+    <div id="domProductPlace"></div>
+    <br>
+    <button onclick="addNonProduct()">Añadir PV</button>
+    __ 
+    <button onclick="clearBarcodeBar()">Borrar Bar</button>
+
+
+    <br>
+
+    <br>
+    <hr>
+    <h2>Total: <span id="domTotalPrice"></span></h2>
+    <hr>
+    <div id="containerTable">
+        <table id="tableProducts">
+            <tr>
+                <th>x</th>
+                <th>Nombre</th>
+                <th>C</th>
+                <th>Precio</th>
+            </tr>
+        </table>
+
+    </div>
+
+
+
+
+    
+    <script src="a.js"></script>
+    <script>
+
+        let domTxtSearchP = document.getElementById("domTxtSearchP");
+        let productsList = [
+            // index
+            // name,
+            // quantity ,
+            // price,
+
+
+        ]
+        function clearBarcodeBar() {
+            domTxtSearchP.value = "";
+        }
+     
+
+        domTxtSearchP.addEventListener("keyup", function (event) {
+            let text = domTxtSearchP.value;
+            let itemWasFound = false;
+            if (event.key === "Enter") {
+
+
+                for (let product of arr) {
+                    if (text !== "" && text === product["barcode"]) {
+
+
+
+
+                        createProductItem(
+                            product["barcode"],
+                            product["name"],
+                            parseInt(product["price"])
+
+                        )
+
+                        showProducts();
+
+
+
+                        itemWasFound = true;
+                        break;
+                    }
+                }
+                if (!itemWasFound) {
+                    alert("not found")
+                }
+
+
+
+
+                domTxtSearchP.value = "";
+            }
+            domTxtSearchP.focus();
+        });
+
+
+        function createProductItem(barcode, name, price) {
+
+
+            productsList.push(
+                {
+                    index: productsList.length,
+                    name,
+                    price,
+                    quantity: 1,
+
+                }
+
+            )
+
+
+            return true;
+
+
+        }
+        function showProducts() {
+
+            document.getElementById("tableProducts").innerHTML = `<tr>
+<th>x</th>
+<th>Nombre</th>
+<th>C</th>
+<th>Precio</th>
+</tr>`;
+            let totalPrice = 0;
+
+            for (let product of productsList) {
+                let tr = document.createElement("tr");
+
+
+
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                let td4 = document.createElement("td");
+
+
+
+                td1.innerHTML = "X";
+                td2.textContent = product.name;
+                td3.textContent = product.quantity;
+                td4.textContent = formartNum(product.price);
+
+                td4.classList.add("price");
+                td1.classList.add("closeButtom");
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+
+                document.getElementById("tableProducts").appendChild(tr);
+
+
+
+                td1.addEventListener("click", function () {
+                    deleteProduct(product.index);
+
+                });
+
+
+
+                totalPrice += product.price;
+
+            }
+            document.getElementById("domTotalPrice").innerText = formartNum(totalPrice);
+
+
+
+            var element = document.getElementById("tableProducts");
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function deleteProduct(index) {
+
+
+
+
+
+            for (let i = 0; i < productsList.length; i++) {
+                if (productsList[i].index === index) {
+
+                    productsList.splice(i, 1);
+                    break;
+                }
+
+            }
+
+            for (let i = 0; i < productsList.length; i++) {
+
+                productsList[i].index = i;
+
+
+            }
+            showProducts();
+        }
+        function formartNum(num) {
+            return new Intl.NumberFormat('en-US').format(num);
+        }
+
+        function addNonProduct() {
+            let price = parseFloat(prompt("Precio"));
+            createProductItem("0170001", "Productos Varios", price);
+            showProducts();
+        }
+       
+    </script>
+
+</body>
+
+</html>
