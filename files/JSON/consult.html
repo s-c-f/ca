@@ -230,6 +230,9 @@
             element.scrollTop = element.scrollHeight;
 
             let lp = productsList[productsList.length-1];
+            if(lp == undefined){
+                lp = {name: "--", price: ""};
+            }
 
             document.getElementById("lastProduct").innerText = `${lp.name.slice(0,13)}: ${formartNum(lp.price)}`;
         }
