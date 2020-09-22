@@ -20,7 +20,8 @@
             text-align: left;
             padding: 8px;
         }
-        .price{
+
+        .price {
             text-align: right;
         }
     </style>
@@ -45,6 +46,9 @@
             <h4>Total: <span id="domTotal"></span></h4>
         </div>
     </section>
+
+
+    <button onclick="download()">Descargar Imagen</button>
 
     <script>
         var url_string = window.location.href;
@@ -93,6 +97,16 @@
         html2canvas(document.getElementsByTagName("section")[0]).then(function (canvas) {
             document.body.appendChild(canvas);
         });
+
+        function download() {
+            const date = new Date();
+            const filename = `Recibo ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}.png`;
+            var link = document.createElement('a');
+            link.download = filename;
+            link.href = document.getElementsByTagName('canvas')[0].toDataURL();
+            link.click();
+
+        }
     </script>
 
 </body>
