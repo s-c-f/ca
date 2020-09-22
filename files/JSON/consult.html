@@ -94,7 +94,7 @@
     </div>
 
 
-
+    <button onclick="generateRecepi()">Generar Recibo</button>
 
     
     <script src="a.js"></script>
@@ -270,6 +270,16 @@
             showProducts();
         }
        
+
+       function generateRecepi(){
+         let totalPrice = document.getElementById("domTotalPrice").innerText
+           let info = {
+                productsList,
+                totalPrice
+           }
+           let sInfo = JSON.stringify(info);
+           window.open("recepi.html?info=" + encodeURI(sInfo))
+       }
     </script>
 
 </body>

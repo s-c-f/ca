@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo</title>
+    <style>
+        body,
+        html {
+            background-color: grey;
+            max-width: 82mm;
+            font-size: 0.8em;
+
+        }
+
+        th,
+        td {
+            border: 1px solid #272323;
+            text-align: left;
+            padding: 8px;
+        }
+        .price{
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+
+
+
+        <div id="containerTable">
+            <table id="tableProducts">
+                <tr>
+                    <th>Nombre</th>
+                    <th>C</th>
+                    <th>Precio</th>
+                </tr>
+            </table>
+
+        </div>
+        <div>
+            <h4>Total: <span id="domTotal"></span></h4>
+        </div>
+    </section>
+
+    <script>
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var info = url.searchParams.get("info");
+        var info = JSON.parse(info)
+
+        for (let product of info.productsList) {
+            let tr = document.createElement("tr");
+
+
+
+
+            let td2 = document.createElement("td");
+            let td3 = document.createElement("td");
+            let td4 = document.createElement("td");
+
+
+
+
+            td2.textContent = product.name;
+            td3.textContent = product.quantity;
+            td4.textContent = formartNum(product.price);
+
+            td4.classList.add("price");
+
+
+
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+
+            document.getElementById("tableProducts").appendChild(tr);
+
+
+        }
+        document.getElementById("domTotal").innerText = info.totalPrice;
+
+        function formartNum(num) {
+            return new Intl.NumberFormat('en-US').format(num);
+        }
+
+    </script>
+    <script src="html2canvas.min.js"></script>
+    <script>
+        html2canvas(document.getElementsByTagName("section")[0]).then(function (canvas) {
+            document.body.appendChild(canvas);
+        });
+    </script>
+
+</body>
+
+</html>
