@@ -24,6 +24,13 @@
         .price {
             text-align: right;
         }
+
+        canvas {
+            display: none;
+        }
+        img{
+            max-width: 100%;
+        }
     </style>
 </head>
 
@@ -48,7 +55,7 @@
     </section>
 
 
-    <button onclick="download()">Descargar Imagen</button>
+    <!-- <button onclick="download()">Descargar Imagen</button> -->
 
     <script>
         var url_string = window.location.href;
@@ -96,17 +103,30 @@
     <script>
         html2canvas(document.getElementsByTagName("section")[0]).then(function (canvas) {
             document.body.appendChild(canvas);
-        });
 
-        function download() {
             const date = new Date();
             const filename = `Recibo ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}.png`;
-            var link = document.createElement('a');
-            link.download = filename;
-            link.href = document.getElementsByTagName('canvas')[0].toDataURL();
-            link.click();
 
-        }
+            let link = document.getElementsByTagName('canvas')[0].toDataURL();
+            let div = document.createElement("div");
+            div.innerHTML = ` <a href="${link}" download="${filename}"><img src="${link}"></a>`;
+            document.body.appendChild(div)
+        });
+
+        // function download() {
+        //     const date = new Date();
+        //     const filename = `Recibo ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}.png`;
+        //     var link = document.createElement('a');
+        //     link.download = filename;
+        //     link.href = document.getElementsByTagName('canvas')[0].toDataURL();
+        //     link.click();
+
+        // }
+
+
+
+
+
     </script>
 
 </body>
