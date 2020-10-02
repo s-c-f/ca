@@ -292,6 +292,8 @@
 
         function addNonProduct() {
             let price = parseFloat(prompt("Precio"));
+            if(isNaN(price)) {return;}
+
             createProductItem("0170001", "Productos Varios", price);
             showProducts();
         }
