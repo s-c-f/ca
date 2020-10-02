@@ -17,6 +17,10 @@
             color: white;
             background-color: rgb(71, 94, 129);
         }
+
+        a {
+            color: rgb(14, 153, 14);
+        }
     </style>
 </head>
 
@@ -30,6 +34,8 @@
 
     <script>
         let productsList = [];
+
+        let listP;
         let names = [];
         function convert() {
             let domTxt = document.getElementById("domTxt");
@@ -54,9 +60,30 @@
                 names.push(` ${name} | ${new Intl.NumberFormat('en-US').format(price)} |  ${barcode} |`);
                 counter += 1;
             }
-           document.getElementById("domJSON").value =  JSON.stringify(productsList)
-           console.log(names);
+            document.getElementById("domJSON").value = listP = JSON.stringify(productsList);
+
+            console.log(names);
+
+            download("a.js", "let arr =" + listP);
+            download("productsShort.js", "let data =" + JSON.stringify(names));
         }
+
+        function download(filename, text) {
+            br = document.createElement("br");
+            document.body.appendChild(br);
+
+            var a = document.createElement('a');
+            a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            a.setAttribute('download', filename);
+            a.innerText = filename;
+            document.body.appendChild(a);
+
+            br = document.createElement("br");
+            document.body.appendChild(br);
+        }
+
+        // Start file download.
+       // download("hello.txt", "This is the content of my file :)");
 
     </script>
 </body>

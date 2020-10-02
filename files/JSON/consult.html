@@ -43,6 +43,11 @@
             user-select: none;
         }
 
+        .quantityButtom {
+            cursor: pointer;
+            user-select: none;
+        }
+
         thead {
             display: block;
         }
@@ -57,7 +62,8 @@
         tbody td {
             width: 70px;
         }
-        #ultimate{
+
+        #ultimate {
             text-align: right;
         }
     </style>
@@ -69,7 +75,7 @@
     <div id="domProductPlace"></div>
     <br>
     <button onclick="addNonProduct()">Añadir PV</button>
-    __ 
+    __
     <button onclick="clearBarcodeBar()">Borrar Bar</button>
 
 
@@ -79,7 +85,7 @@
     <hr>
     <h3>Total: <span id="domTotalPrice"></span></h3>
     <hr>
-    <div id="ultimate"> <b>Ultimo P:</b>  <span id="lastProduct"></span></div>
+    <div id="ultimate"> <b>Ultimo P:</b> <span id="lastProduct"></span></div>
     <hr>
     <div id="containerTable">
         <table id="tableProducts">
@@ -96,7 +102,7 @@
 
     <button onclick="generateRecepi()">Generar Recibo</button>
 
-    
+
     <script src="a.js"></script>
     <script>
 
@@ -112,7 +118,7 @@
         function clearBarcodeBar() {
             domTxtSearchP.value = "";
         }
-     
+
 
         domTxtSearchP.addEventListener("keyup", function (event) {
             let text = domTxtSearchP.value;
@@ -198,9 +204,10 @@
                 td1.innerHTML = "X";
                 td2.textContent = product.name;
                 td3.textContent = product.quantity;
-                td4.textContent = formartNum(product.price);
+                td4.textContent = formartNum(product.price * product.quantity);
 
                 td4.classList.add("price");
+                td3.classList.add("quantityButtom");
                 td1.classList.add("closeButtom");
 
                 tr.appendChild(td1);
@@ -218,8 +225,14 @@
                 });
 
 
+                td3.addEventListener("click", function () {
+                    changeQuantity(product.index);
 
-                totalPrice += product.price;
+                });
+
+
+
+                totalPrice += (product.price * product.quantity);
 
             }
             document.getElementById("domTotalPrice").innerText = formartNum(totalPrice);
@@ -229,23 +242,18 @@
             var element = document.getElementById("tableProducts");
             element.scrollTop = element.scrollHeight;
 
-            let lp = productsList[productsList.length-1];
-            if(lp == undefined){
-                lp = {name: "--", price: ""};
+            let lp = productsList[productsList.length - 1];
+            if (lp == undefined) {
+                lp = { name: "--", price: "" };
             }
 
-            document.getElementById("lastProduct").innerText = `${lp.name.slice(0,13)}: ${formartNum(lp.price)}`;
+            document.getElementById("lastProduct").innerText = `${lp.name.slice(0, 13)}: ${formartNum(lp.price)}`;
         }
 
         function deleteProduct(index) {
 
-
-
-
-
             for (let i = 0; i < productsList.length; i++) {
                 if (productsList[i].index === index) {
-
                     productsList.splice(i, 1);
                     break;
                 }
@@ -253,13 +261,28 @@
             }
 
             for (let i = 0; i < productsList.length; i++) {
-
                 productsList[i].index = i;
+            }
+            showProducts();
+        }
+        function changeQuantity(index) {
 
+            for (let i = 0; i < productsList.length; i++) {
+                if (productsList[i].index === index) {
+
+                    //change quantity
+                    let quantity = prompt(formartNum(productsList[i].price) + " | " + productsList[i].name)
+                    productsList[i].quantity = quantity || productsList[i].quantity;
+                    break;
+                }
 
             }
             showProducts();
         }
+
+
+
+
         function formartNum(num) {
             return new Intl.NumberFormat('en-US').format(num);
         }
@@ -269,17 +292,17 @@
             createProductItem("0170001", "Productos Varios", price);
             showProducts();
         }
-       
 
-       function generateRecepi(){
-         let totalPrice = document.getElementById("domTotalPrice").innerText
-           let info = {
+
+        function generateRecepi() {
+            let totalPrice = document.getElementById("domTotalPrice").innerText
+            let info = {
                 productsList,
                 totalPrice
-           }
-           let sInfo = JSON.stringify(info);
-           window.open("recepi.html?info=" + encodeURI(sInfo))
-       }
+            }
+            let sInfo = JSON.stringify(info);
+            window.open("recepi.html?info=" + encodeURI(sInfo))
+        }
     </script>
 
 </body>

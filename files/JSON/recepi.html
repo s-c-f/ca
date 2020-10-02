@@ -28,7 +28,8 @@
         canvas {
             display: none;
         }
-        img{
+
+        img {
             max-width: 100%;
         }
     </style>
@@ -62,27 +63,26 @@
         var url = new URL(url_string);
         var info = url.searchParams.get("info");
         var info = JSON.parse(info)
+      
 
         for (let product of info.productsList) {
             let tr = document.createElement("tr");
 
 
 
-
+         
             let td2 = document.createElement("td");
             let td3 = document.createElement("td");
             let td4 = document.createElement("td");
 
 
-
-
             td2.textContent = product.name;
             td3.textContent = product.quantity;
-            td4.textContent = formartNum(product.price);
+            td4.textContent = formartNum(product.price * product.quantity);
 
             td4.classList.add("price");
-
-
+            td3.classList.add("quantityButtom");
+          
 
             tr.appendChild(td2);
             tr.appendChild(td3);
@@ -91,7 +91,12 @@
             document.getElementById("tableProducts").appendChild(tr);
 
 
+
+
+            //totalPrice += (product.price * product.quantity);
+
         }
+
         document.getElementById("domTotal").innerText = info.totalPrice;
 
         function formartNum(num) {
