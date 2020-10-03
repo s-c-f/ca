@@ -251,6 +251,9 @@
             }
 
             document.getElementById("lastProduct").innerText = `${lp.name.slice(0, 13)}: ${formartNum(lp.price)}`;
+       
+            //change title
+            document.title = formartNum(totalPrice);
         }
 
         function deleteProduct(index) {
