@@ -34,6 +34,13 @@
         }
         #centerTotal{
             text-align: center;
+            font-size: 1.5em;
+        }
+        table{
+            font-size: 7pt;
+        }
+        #domAltura{
+            font-size: 1.5em;
         }
     </style>
 </head>
@@ -58,7 +65,7 @@
         </div>
     </section>
 
-   <div>
+   <div id="domAltura">
       Altura: <span id="domHeight"></span>
    </div>
 
@@ -124,7 +131,7 @@
             div.innerHTML = ` <a href="${link}" download="${filename}"><img src="${link}"></a>`;
             document.body.appendChild(div)
 
-            let tableHeight = document.getElementById("tableProducts").getBoundingClientRect().height / 96;
+            let tableHeight = Math.ceil(document.getElementById("tableProducts").getBoundingClientRect().height / 96);
             document.getElementById("domHeight").innerHTML = `${tableHeight.toFixed(2)}''`;
         });
 
