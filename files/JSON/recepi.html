@@ -32,6 +32,9 @@
         img {
             max-width: 100%;
         }
+        #centerTotal{
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -50,10 +53,14 @@
             </table>
 
         </div>
-        <div>
-            <h4>Total: <span id="domTotal"></span></h4>
+        <div id="centerTotal">
+            <h3>Total: <span id="domTotal"></span></h3>
         </div>
     </section>
+
+   <div>
+      Altura: <span id="domHeight"></span>
+   </div>
 
 
     <!-- <button onclick="download()">Descargar Imagen</button> -->
@@ -116,6 +123,9 @@
             let div = document.createElement("div");
             div.innerHTML = ` <a href="${link}" download="${filename}"><img src="${link}"></a>`;
             document.body.appendChild(div)
+
+            let tableHeight = document.getElementById("tableProducts").getBoundingClientRect().height / 96;
+            document.getElementById("domHeight").innerHTML = `${tableHeight.toFixed(2)}''`;
         });
 
         // function download() {
