@@ -66,23 +66,40 @@
         #ultimate {
             text-align: right;
         }
+
         button {
             font-size: 1em;
         }
+
+        #domTxtSearchP:focus {
+            border-color: green;
+            border-width: 4px;
+            border-style: solid;
+        }
+        #domTxtSearchP{
+            border-color: red;
+            border-width: 4px;
+            border-style: solid;
+        }
+        table{
+            font-size: 0.86em;
+        }
+        
     </style>
 </head>
 
 <body>
-    <h4>Codigo de barras:</h4>
-    <input id="domTxtSearchP" type="text">
-    <div id="domProductPlace"></div>
-    <br>
     <button onclick="addNonProduct()">Añadir PV</button>
     __
     <button onclick="clearBarcodeBar()">Borrar Bar</button>
-
+    <br>
 
     <br>
+
+    <input id="domTxtSearchP" type="text">
+    <div id="domProductPlace"></div>
+    <br>
+ 
 
     <br>
     <hr>
@@ -251,7 +268,7 @@
             }
 
             document.getElementById("lastProduct").innerText = `${lp.name.slice(0, 13)}: ${formartNum(lp.price)}`;
-       
+
             //change title
             document.title = formartNum(totalPrice);
         }
@@ -295,7 +312,7 @@
 
         function addNonProduct() {
             let price = parseFloat(prompt("Precio"));
-            if(isNaN(price)) {return;}
+            if (isNaN(price)) { return; }
 
             createProductItem("0170001", "Productos Varios", price);
             showProducts();
