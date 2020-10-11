@@ -76,22 +76,24 @@
             border-width: 4px;
             border-style: solid;
         }
-        #domTxtSearchP{
+
+        #domTxtSearchP {
             border-color: red;
             border-width: 4px;
             border-style: solid;
         }
-        table{
+
+        table {
             font-size: 0.86em;
         }
-        
     </style>
 </head>
 
 <body>
-    <button onclick="addNonProduct()">Añadir PV</button>
+    <button onclick="enter()">Enter</button>__
+    <button onclick="addNonProduct()">AñadirPV</button>
     __
-    <button onclick="clearBarcodeBar()">Borrar Bar</button>
+    <button onclick="clearBarcodeBar()">Borrar</button>
     <br>
 
     <br>
@@ -99,7 +101,7 @@
     <input id="domTxtSearchP" type="text">
     <div id="domProductPlace"></div>
     <br>
- 
+
 
     <br>
     <hr>
@@ -121,7 +123,13 @@
 
 
     <button onclick="generateRecepi()">Generar Recibo</button>
-
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
     <script src="a.js"></script>
     <script>
@@ -141,43 +149,48 @@
 
 
         domTxtSearchP.addEventListener("keyup", function (event) {
-            let text = domTxtSearchP.value;
-            let itemWasFound = false;
+       
             if (event.key === "Enter") {
 
+                enter();
 
-                for (let product of arr) {
-                    if (text !== "" && text === product["barcode"]) {
-
-
-
-
-                        createProductItem(
-                            product["barcode"],
-                            product["name"],
-                            parseInt(product["price"])
-
-                        )
-
-                        showProducts();
-
-
-
-                        itemWasFound = true;
-                        break;
-                    }
-                }
-                if (!itemWasFound) {
-                    alert("not found")
-                }
-
-
-
-
-                domTxtSearchP.value = "";
             }
             domTxtSearchP.focus();
         });
+
+        function enter() {
+            let text = domTxtSearchP.value;
+            let itemWasFound = false
+            for (let product of arr) {
+                if (text !== "" && text === product["barcode"]) {
+
+
+
+
+                    createProductItem(
+                        product["barcode"],
+                        product["name"],
+                        parseInt(product["price"])
+
+                    )
+
+                    showProducts();
+
+
+
+                    itemWasFound = true;
+                    break;
+                }
+            }
+            if (!itemWasFound) {
+                alert("not found")
+            }
+
+
+
+
+            domTxtSearchP.value = "";
+        }
 
 
         function createProductItem(barcode, name, price) {
@@ -267,7 +280,7 @@
                 lp = { name: "--", price: "" };
             }
 
-            document.getElementById("lastProduct").innerText = `${lp.name.slice(0, 13)}: ${formartNum(lp.price)}`;
+            document.getElementById("lastProduct").innerText = `${lp.name.slice(0, 16)}: [${formartNum(lp.price)}]`;
 
             //change title
             document.title = formartNum(totalPrice);
