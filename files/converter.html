@@ -30,13 +30,13 @@
     <br><button onclick="convert()">Convert</button>
 
     <h3>JSON</h3>
-    <textarea id="domJSON" name="" id="" cols="80" rows="10"></textarea>
+    <!-- <textarea id="domJSON" name="" id="" cols="80" rows="10"></textarea> -->
 
     <script>
         let productsList = [];
 
         let listP;
-        let names = [];
+       // let names = [];
         function convert() {
             let domTxt = document.getElementById("domTxt");
 
@@ -57,15 +57,16 @@
                         price
                     }
                 );
-                names.push(` ${name} | <b> ${new Intl.NumberFormat('en-US').format(price)} </b> |  ${barcode} |`);
+              //  names.push(` ${name} | <b> ${new Intl.NumberFormat('en-US').format(price)} </b> |  ${barcode} |`);
                 counter += 1;
             }
-            document.getElementById("domJSON").value = listP = JSON.stringify(productsList);
+           // document.getElementById("domJSON").value = listP = JSON.stringify(productsList);
+            listP = JSON.stringify(productsList);
 
-            console.log(names);
+           // console.log(names);
 
             download("a.js", "let arr =" + listP);
-            download("productsShort.js", "let data =" + JSON.stringify(names));
+           // download("productsShort.js", "let data =" + JSON.stringify(names));
         }
 
         function download(filename, text) {
