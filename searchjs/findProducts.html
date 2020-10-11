@@ -12,6 +12,7 @@
         body {
             background-color: black;
             color: white;
+         
         }
 
         input {
@@ -103,19 +104,26 @@
         }
 
         .productSelected {
-            font-size: 1.3em;
+            font-size: 1.1em;
             color: #3487be;
         }
-        .price{
+
+        .price {
             font-weight: bold;
             font-size: 1.1em;
         }
+        td{
+            font-size: 0.9em;
+        }
+
+        
     </style>
 </head>
 
 <body>
 
     <input id="inTerm" type="text" name="" id="">
+
     <button onclick="document.getElementById('inTerm').value = '';showSuggestions()">Borrar</button>
     <div id="containerTable">
         <table id="tableProducts">
@@ -150,11 +158,11 @@
 
         inTerm.addEventListener("input", function () {
             showSuggestions();
-            
+
         });
 
         function showSuggestions() {
-            let arrIndex = index.search(inTerm.value, 14);
+            let arrIndex = index.search(inTerm.value, 20);
             tableProducts.innerHTML =
                 `   <table id="tableProducts">
             <tr>
@@ -181,6 +189,7 @@
 
                 td0.classList.add("copyButtom");
                 td2.classList.add("price");
+               
 
                 tr.appendChild(td0);
                 tr.appendChild(td1);
@@ -190,14 +199,22 @@
                 tableProducts.appendChild(tr);
 
                 td0.addEventListener("click", function () {
-                    inTerm.value = arr[i].barcode;
-                    inTerm.select();
+                    let input = document.createElement("input");
+                    input.value = arr[i].barcode;
+                    document.body.appendChild(input);
+
+                    input.select();
                     document.execCommand("Copy");
+                    input.remove();
                     tr.classList.add("productSelected");
+
+                  
 
                 });
             }
         }
+
+   
         //console.log(arr);
 
         function formartNum(num) {
