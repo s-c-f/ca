@@ -11,7 +11,11 @@
             color: white;
         }
 
-        input,
+        input {
+            background-color: rgb(65, 61, 61);
+
+        }
+
         textarea {
 
             color: white;
@@ -25,23 +29,71 @@
 </head>
 
 <body>
-    <h3>TXT</h3>
-    <textarea id="domTxt" name="" id="" cols="80" rows="10"></textarea>
-    <br><button onclick="convert()">Convert</button>
+    <h3>File</h3>
+
+
+    <input type="file" id="file-input" />
+    <button id="read-button">Read File</button>
+    <pre id="file-contents"></pre>
+
+
+  
 
     <h3>JSON</h3>
     <!-- <textarea id="domJSON" name="" id="" cols="80" rows="10"></textarea> -->
 
     <script>
+
+        document.querySelector("#read-button").addEventListener('click', function () {
+            let file = document.querySelector("#file-input").files[0];
+            let reader = new FileReader();
+            reader.addEventListener('load', function (e) {
+                let text = e.target.result;
+                convertToJson(text);
+
+
+            });
+            reader.readAsText(file);
+        });
+
+        function convertToJson(text) {
+            text = replaceAll(text, '"', "")
+            text = replaceAll(text, 'GRANOS, PASTAS Y HARINAS', "GRANOS PASTAS Y HARINAS")
+            text = replaceAll(text, "�", "Ñ");
+            ///console.log(text);
+            convert(text)
+        
+
+        }
+
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(find, 'g'), replace);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         let productsList = [];
 
+
+
+
+
         let listP;
-       // let names = [];
-        function convert() {
-            let domTxt = document.getElementById("domTxt");
+        // let names = [];
+        function convert(text) {
+     
 
             let counter = 0;
-            for (let row of domTxt.value.split("\n")) {
+            for (let row of text.split("\n")) {
                 let product = row.split(",");
 
                 let barcode = product[4];
@@ -57,16 +109,16 @@
                         price
                     }
                 );
-              //  names.push(` ${name} | <b> ${new Intl.NumberFormat('en-US').format(price)} </b> |  ${barcode} |`);
+                //  names.push(` ${name} | <b> ${new Intl.NumberFormat('en-US').format(price)} </b> |  ${barcode} |`);
                 counter += 1;
             }
-           // document.getElementById("domJSON").value = listP = JSON.stringify(productsList);
+            // document.getElementById("domJSON").value = listP = JSON.stringify(productsList);
             listP = JSON.stringify(productsList);
 
-           // console.log(names);
+            // console.log(names);
 
             download("a.js", "let arr =" + listP);
-           // download("productsShort.js", "let data =" + JSON.stringify(names));
+            // download("productsShort.js", "let data =" + JSON.stringify(names));
         }
 
         function download(filename, text) {
