@@ -12,7 +12,7 @@
         body {
             background-color: black;
             color: white;
-         
+
         }
 
         input {
@@ -65,6 +65,7 @@
             display: block;
             overflow-y: scroll;
 
+
         }
 
         thead th,
@@ -112,11 +113,26 @@
             font-weight: bold;
             font-size: 1.1em;
         }
-        td{
+
+        td {
             font-size: 0.9em;
         }
 
-        
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        .td3 {
+
+            font-size: 0.75em;
+
+        }
+
+        .td0 {
+            cursor: pointer;
+            user-select: none;
+        }
     </style>
 </head>
 
@@ -128,7 +144,7 @@
     <div id="containerTable">
         <table id="tableProducts">
             <tr>
-                <th>📋</th>
+                <th>[-]</th>
                 <th>Producto</th>
                 <th>Precio</th>
                 <th>Barcode</th>
@@ -162,11 +178,11 @@
         });
 
         function showSuggestions() {
-            let arrIndex = index.search(inTerm.value, 20);
+            let arrIndex = index.search(inTerm.value, 22);
             tableProducts.innerHTML =
                 `   <table id="tableProducts">
             <tr>
-                <th>📋</th>
+                <th>[-]</th>
                 <th>Producto</th>
                 <th>Precio</th>
                 <th>barcode</th>
@@ -182,14 +198,20 @@
                 let td2 = document.createElement("td");
                 let td3 = document.createElement("td");
 
-                td0.innerText = "📋";
+                td0.innerText = "[-]";
                 td1.innerText = `${arr[i].name}`;
                 td2.innerText = `${formartNum(arr[i].price)}`;
                 td3.innerText = `${arr[i].barcode}`;
 
                 td0.classList.add("copyButtom");
                 td2.classList.add("price");
-               
+
+                td0.classList.add("td0");
+                td1.classList.add("td1");
+                td2.classList.add("td2");
+                td3.classList.add("td3");
+
+
 
                 tr.appendChild(td0);
                 tr.appendChild(td1);
@@ -208,13 +230,13 @@
                     input.remove();
                     tr.classList.add("productSelected");
 
-                  
+
 
                 });
             }
         }
 
-   
+
         //console.log(arr);
 
         function formartNum(num) {
