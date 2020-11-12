@@ -109,27 +109,29 @@
 
 		let height = info.productsList.length * ySum + 25;
 
+		let xoffset = 4;
+
 		const date = new Date();
 		const filename = `Fecha: ${date.getDate().toString().padStart(2,"0")}-${(date.getMonth() + 1).toString().padStart(2,"0")}-${date.getFullYear()} Hora: ${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padEnd(2,"0")}:${date.getSeconds().toString().padStart(2,"0")}`
 
-		if(height < 60){
-			height = 60;
+		if(height < 75){
+			height = 75;
 		}
 		contentPDF =
-			`var doc = new jsPDF({unit: "mm",format: [80, ${height}]}); doc.setFontSize(${fontSize});`;
+			`var doc = new jsPDF({unit: "mm",format: [82, ${height}]}); doc.setFontSize(${fontSize});`;
 
 		let y = 17;
 
-		contentPDF += `\ndoc.text("${filename}", 0,3);\n`;
-		contentPDF += `\ndoc.setFontSize(${fontSize * 2}); doc.text("Recibo", 1,8);doc.setFontSize(${fontSize});`
-		contentPDF += `\ndoc.text("${"Nombre del Producto".slice(0, 25).padEnd(25, " ")}              |${"Can".toString().padStart(3, "0")}| ${"Costo".padEnd(11, " ")}", 0, ${12})`
+		contentPDF += `\ndoc.text("${filename}", ${xoffset},3);\n`;
+		contentPDF += `\ndoc.setFontSize(${fontSize * 2}); doc.text("Recibo", ${xoffset+1},8);doc.setFontSize(${fontSize});`
+		contentPDF += `\ndoc.text("${"Nombre del Producto".slice(0, 25).padEnd(25, " ")}              |${"Can".toString().padStart(3, "0")}| ${"Costo".padEnd(11, " ")}", ${xoffset}, ${12})`
 
 		for (let product of info.productsList) {
-			contentPDF += `\n doc.text("${product.name.slice(0, 25).padEnd(25, "_")}", 0, ${y});`
-			contentPDF += `doc.text(" |${product.quantity.toString().padStart(3, "0")}| ${formartNum(product.price * product.quantity).padStart(11, "_")}", 36, ${y})`
+			contentPDF += `\n doc.text("${product.name.slice(0, 25).padEnd(25, "_")}", ${xoffset}, ${y});`
+			contentPDF += `doc.text(" |${product.quantity.toString().padStart(3, "0")}| ${formartNum(product.price * product.quantity).padStart(11, "_")}", ${xoffset + 36} , ${y})`
 			y += ySum;
 		}
-		contentPDF += `\ndoc.setFontSize(${fontSize * 2}); doc.text("Total: ${info.totalPrice}", 1, ${y+2});doc.setFontSize(${fontSize});`
+		contentPDF += `\ndoc.setFontSize(${fontSize * 2}); doc.text("Total: ${info.totalPrice}", ${xoffset+1}, ${y+2});doc.setFontSize(${fontSize});`
 		
 	}
 
