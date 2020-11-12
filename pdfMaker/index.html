@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>jsPDF - Create PDFs with HTML5 JavaScript Library</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<style>
+		body {
+			background-color: black !important;
+			color: white !important;
+		}
+
+		.ace_content {
+			background-color: grey;
+			color: white;
+		}
+
+		.ace_layer.ace_gutter-layer.ace_folding-enabled {
+			background-color: gray;
+			color: white;
+		}
+	</style>
+
+	<!-- Bootstrap -->
+	<link href="./examples/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Editor CSS -->
+	<link href="./examples/css/editor.css" rel="stylesheet">
+</head>
+
+
+
+<div class="row-fluid">
+	<div class="span6" style="float: right; height: 650px;width: 50%;">
+		<div id="preview-pane" style="height: 650px;position:relative; z-index:999"></div>
+	</div>
+	<div class="span5 no-gutter" style="width: 49%;float:left">
+
+
+		<div class="template-picker">
+			<label for="template">Choose example</label>
+			<select id="template" name="template">
+				<option>Hold your horses...</option>
+			</select>
+		</div>
+	</div>
+
+	<div id="editor" class="bypass" style="width: 49%;"></div>
+
+	<div class="controls" style="width: 49%;">
+		<div class="pull-right">
+			<!--<a href="#" class="btn btn-primary">Download Your Code</a>-->
+			<a href="#" class="btn btn-primary download-pdf">Download PDF</a>
+		</div>
+
+		<label class="checkbox-inline">
+			<input type="checkbox" id="auto-refresh" checked="checked"> Auto refresh on changes?
+		</label>
+		<a href="#" class="run-code hide btn btn-success">Run Code</a>
+
+		<div class="alert hide">
+			Auto refresh disabled for this
+		</div>
+
+	</div>
+
+</div>
+<div class="clerfix"></div>
+
+</div> <!-- /container -->
+
+<!-- Scripts down here -->
+<script src="./examples/js/jquery/jquery-1.7.1.min.js"></script>
+
+<script type="text/javascript" src="dist/polyfills.umd.js"></script>
+<script type="text/javascript" src="dist/jspdf.umd.js"></script>
+
+<script type="text/javascript">
+	var jsPDF = window.jspdf.jsPDF;
+	$(document).ready(function () {
+		if (jsPDF && jsPDF.version) {
+			$('#dversion').text('Version ' + jsPDF.version);
+		}
+	});
+</script>
+
+<!-- Code editor -->
+<script>
+	let fontSize = 7;
+	let ySum = 5;
+	function formartNum(num) {
+		return new Intl.NumberFormat('en-US').format(num);
+	}
+
+
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var products = url.searchParams.get("products");
+	let contentPDF;
+	if (products === null) {
+		contentPDF =
+			`var doc = new jsPDF(); doc.setFontSize(${fontSize}); doc.text("Error", 5, ${ySum});`
+	}
+	else {
+		let info = JSON.parse(products);
+
+		let height = info.productsList.length * ySum + 25;
+
+		const date = new Date();
+		const filename = `Fecha: ${date.getDate().toString().padStart(2,"0")}-${(date.getMonth() + 1).toString().padStart(2,"0")}-${date.getFullYear()} Hora: ${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padEnd(2,"0")}:${date.getSeconds().toString().padStart(2,"0")}`
+
+		if(height < 60){
+			height = 60;
+		}
+		contentPDF =
+			`var doc = new jsPDF({unit: "mm",format: [80, ${height}]}); doc.setFontSize(${fontSize});`;
+
+		let y = 17;
+
+		contentPDF += `\ndoc.text("${filename}", 0,3);\n`;
+		contentPDF += `\ndoc.setFontSize(${fontSize * 2}); doc.text("Recibo", 1,8);doc.setFontSize(${fontSize});`
+		contentPDF += `\ndoc.text("${"Nombre del Producto".slice(0, 25).padEnd(25, " ")}              |${"Can".toString().padStart(3, "0")}| ${"Costo".padEnd(11, " ")}", 0, ${12})`
+
+		for (let product of info.productsList) {
+			contentPDF += `\n doc.text("${product.name.slice(0, 25).padEnd(25, "_")}", 0, ${y});`
+			contentPDF += `doc.text(" |${product.quantity.toString().padStart(3, "0")}| ${formartNum(product.price * product.quantity).padStart(11, "_")}", 36, ${y})`
+			y += ySum;
+		}
+		contentPDF += `\ndoc.setFontSize(${fontSize * 2}); doc.text("Total: ${info.totalPrice}", 1, ${y+2});doc.setFontSize(${fontSize});`
+		
+	}
+
+
+
+</script>
+
+<script src="./examples/js/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Scripts in development mode -->
+
+
+
+<script type="text/javascript" src="./examples/js/pdfobject.min.js"></script>
+<script type="text/javascript" src="./examples/js/editor.js"></script>
+</body>
+
+</html>

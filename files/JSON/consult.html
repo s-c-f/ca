@@ -122,7 +122,9 @@
     </div>
 
 
+    
     <button onclick="generateRecepi()">Generar Recibo</button>
+    <button onclick="generarPDF()">Generar PDF</button>
     <br>
     <br>
     <br>
@@ -340,6 +342,15 @@
             }
             let sInfo = JSON.stringify(info);
             window.open("recepi.html?info=" + encodeURI(sInfo))
+        }
+        function generarPDF(){
+            let totalPrice = document.getElementById("domTotalPrice").innerText
+            let info = {
+                productsList,
+                totalPrice
+            }
+            let sInfo = JSON.stringify(info);
+            window.open("../../pdfMaker/index.html?products=" + encodeURI(sInfo))
         }
     </script>
 
