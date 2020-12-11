@@ -129,12 +129,26 @@
     <br>
     <br>
     <br>
-    <br>
-    <br>
-    <br>
+    <h5>Zoom</h5>
+    <button onclick="changeZoom('+')">+</button>
+    <button onclick="changeZoom('-')">-</button>
 
     <script src="a.js"></script>
     <script>
+        let zoom = 1.1;
+        document.body.style.fontSize = `${zoom}em`;
+
+       function changeZoom(char){
+           if(char === "-"){
+            zoom -= 0.045;
+           }else{
+            zoom += 0.045;
+           }
+
+
+            document.body.style.fontSize = `${zoom}em`;
+        }
+
 
         let domTxtSearchP = document.getElementById("domTxtSearchP");
         let productsList = [
